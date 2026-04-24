@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifan Motor Matic - Custom Build</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ecf0f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #e74c3c, #f39c12);
+            border-radius: 10px;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #e74c3c, #f39c12, #3498db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .social-nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .social-btn.instagram {
+            background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+        }
+
+        .social-btn.tiktok {
+            background: linear-gradient(45deg, #000000 0%, #ff0050 50%, #ffffff 100%);
+            color: #000;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(45deg, #e74c3c, #f39c12);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-10px); }
+        }
+
+        .hero-content {
+            max-width: 900px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 30px rgba(231, 76, 60, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+        }
+
+        .hero-social {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-cta {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 3rem;
+            border-radius: 50px;
+            border: 2px solid rgba(255,255,255,0.3);
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .hero-cta:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-3px);
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #e74c3c, #f39c12);
+            color: white;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 15px 35px rgba(231, 76, 60, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-btn:hover::before {
+            left: 100%;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 45px rgba(231, 76, 60, 0.6);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Modifan Showcase */
+        .modifan-section {
+            padding: 120px 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, #e74c3c, #f39c12, #3498db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            color: #6c757d;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        /* Motor Image */
+        .motor-gallery {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+        }
+
+        .motor-main-img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+
+        .motor-gallery:hover .motor-main-img {
+            transform: scale(1.05);
+        }
+
+        /* Modifan Cards */
+        .modifan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .modifan-card {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-top: 5px solid;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modifan-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #e74c3c, #f39c12, #3498db, #2ecc71);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .modifan-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .modifan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+
+        /* Color coding untuk setiap modifan */
+        .jok { border-top-color: #e74c3c; }
+        .diskbrake { border-top-color: #f39c12; }
+        .skok { border-top-color: #3498db; }
+        .laser { border-top-color: #9b59b6; }
+        .stoplamp { border-top-color: #2ecc71; }
+        .hugger { border-top-color: #e67e22; }
+        .spion { border-top-color: #1abc9c; }
+        .slebor { border-top-color: #34495e; }
+
+        .modifan-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .modifan-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .modifan-desc {
+            color: #7f8c8d;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .brand-tag {
+            background: linear-gradient(45deg, #e74c3c, #f39c12);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        /* Social Section */
+        .social-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            text-align: center;
+            color: white;
+        }
+
+        .social-hero {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 2rem;
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .social-hero-btn {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            min-width: 220px;
+            justify-content: center;
+        }
+
+        .social-hero-btn.instagram {
+            background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+            color: white;
+        }
+
+        .social-hero-btn.tiktok {
+            background: linear-gradient(45deg, #000000 0%, #ff0050 35%, #ffffff 65%, #ff0050 100%);
+            color: #000;
+        }
+
+        .social-hero-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        
+        /* Features */
+        .features {
+            padding: 100px 0;
+            background: #1a1a2e;
+            color: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.4s ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(231, 76, 60, 0.2);
+            border-color: #e74c3c;
+            transform: translateY(-10px);
+        }
+
+        /* Footer */
+        .footer {
+            background: #0f1419;
+            color: #bdc3c7;
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            .showcase-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .social-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .social-hero-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .motor-main-img {
+                height: 400px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">MATIC MODIF</div>
+            <ul class="nav-menu">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#modifan">Modifan</a></li>
+            </ul>
+            
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <h1 class="animate">VARIO 150CC 2016</h1>
+            <p class="animate" style="animation-delay: 0.3s;">UNTUK REFERENSI MODIFAN BUDGET PELAJAR</p>
+             <div class="hero-social animate" style="animation-delay: 0.6s">
+                <a href="https://instagram.com/af_wahyuu" target="_blank" class="hero-cta">
+                    <i class="fab fa-instagram"></i> Follow IG
+                </a>
+                <a href="https://tiktok.com/@varbrown_16" target="_blank" class="hero-cta">
+                    <i class="fab fa-tiktok"></i> Follow TikTok
+                </a>
+            </div>
+            <a href="#modifan" class="cta-btn animate" style="animation-delay: 0.6s">Lihat Modifan <i class="fas fa-arrow-right ml-2"></i></a>
+        </div>
+    </section>
+
+    <!-- Modifan Showcase -->
+    <section id="modifan" class="modifan-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title animate">MODIFAN BUDGET PELAJAR</h2>
+                <p class="section-subtitle animate" style="animation-delay: 0.2s;">Standar nyelll...</p>
+            </div>
+
+            <div class="showcase-grid">
+                <!-- GAMBAR MOTOR - GANTI DENGAN FOTO MOTOR ANDA -->
+                <div class="motor-gallery animate">
+                    <img src="vario.jpeg" 
+                         alt="Motor Matic Modifan" class="motor-main-img" id="mainMotorImg">
+                </div>
+
+                <div class="animate" style="animation-delay: 0.2s">
+                    <div class="modifan-grid">
+                        <!-- Jok Mb Tech -->
+                        <div class="modifan-card jok animate" style="animation-delay: 0.1s">
+                            <i class="fas fa-couch modifan-icon"></i>
+                            <h3 class="modifan-title">Jok Premium</h3>
+                            <p class="modifan-desc">Jok dibuat custom menggunakan Mb Tech original dengan jahitan double stitching untuk kenyamanan berkendara maksimal harga Rp40.000</p>
+                            <span class="brand-tag">MB TECH</span>
+                        </div>
+
+                        <!-- Diskbrake Kitaco -->
+                        <div class="modifan-card diskbrake animate" style="animation-delay: 0.2s">
+                            <i class="fas fa-hard-hat modifan-icon"></i>
+                            <h3 class="modifan-title">Diskbrake Oversize</h3>
+                            <p class="modifan-desc">Upgrade pengereman dengan Kitaco 260mm untuk stopping power superior dan rasa percaya diri di setiap tikungan harga Rp120.000</p>
+                            <span class="brand-tag">KITACO 260MM</span>
+                        </div>
+
+                        <!-- Skok Depan -->
+                        <div class="modifan-card skok animate" style="animation-delay: 0.3s">
+                            <i class="fas fa-compress-arrows-alt modifan-icon"></i>
+                            <h3 class="modifan-title">Skok Depan Downsize</h3>
+                            <p class="modifan-desc">Skok depan di-downsize 4cm untuk stance lebih rendah dan handling yang lebih tajam harga Rp120.000</p>
+                            <span class="brand-tag">CUSTOM 4CM</span>
+                        </div>
+
+                        <!-- Mini Laser Bullaes -->
+                        <div class="modifan-card laser animate" style="animation-delay: 0.4s">
+                            <i class="fas fa-lightbulb modifan-icon"></i>
+                            <h3 class="modifan-title">Mini Laser</h3>
+                            <p class="modifan-desc">Headlamp tambahan menggunakan Bullaes 30 watt untuk visibilitas malam hari yang luar biasa harga Rp400.000</p>
+                            <span class="brand-tag">BULLAES 30W</span>
+                        </div>
+
+                        <!-- Stoplamp Racepro -->
+                        <div class="modifan-card stoplamp animate" style="animation-delay: 0.5s">
+                            <i class="fas fa-stopwatch modifan-icon"></i>
+                            <h3 class="modifan-title">Stoplamp LED</h3>
+                            <p class="modifan-desc">Stoplamp aftermarket Racepro dengan LED super bright dan desain racing modern harga Rp400.000</p>
+                            <span class="brand-tag">RACEPRO</span>
+                        </div>
+
+                        <!-- Hugger Airblade -->
+                        <div class="modifan-card hugger animate" style="animation-delay: 0.6s">
+                            <i class="fas fa-shield-alt modifan-icon"></i>
+                            <h3 class="modifan-title">Hugger</h3>
+                            <p class="modifan-desc">Hugger custom replika Airblade untuk tampilan lebih clean dan aerodinamis harga Rp50.000</p>
+                            <span class="brand-tag">AIRBLADE STYLE</span>
+                        </div>
+
+                        <!-- Spion Xmax -->
+                        <div class="modifan-card spion animate" style="animation-delay: 0.7s">
+                            <i class="fas fa-eye modifan-icon"></i>
+                            <h3 class="modifan-title">Spion Premium</h3>
+                            <p class="modifan-desc">Spion replika Xmax dengan kaca bening dan body premium untuk visibilitas optimal Harga Rp100.000</p>
+                            <span class="brand-tag">XMAX STYLE
